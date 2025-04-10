@@ -1,5 +1,4 @@
 /* style.css */
-/* --- 既存部分はそのまま --- */
 body, html {
   margin: 0;
   padding: 0;
@@ -30,24 +29,23 @@ header input[type="tel"] {
 
 /* ヘッダー内のボタンは削除済み */
 
-/* --- 追加ボタンの固定配置設定 --- */
+/* 追加ボタンの固定配置設定 */
 #addButtonWrapper {
   position: fixed;
-  top: 50px;             /* ヘッダーの下、必要に応じて調整 */
+  top: 70px;              /* ヘッダーの下に十分な余白を確保 */
   left: 50%;
   transform: translateX(-50%);
-  z-index: 101;
+  z-index: 200;           /* headerより高いz-indexに設定 */
 }
 
 #addRoomBtn {
   padding: 6px 10px;
   font-size: 14px;
-  margin-right: 15px;      /* 右側に15pxの空白 */
+  margin-right: 15px;
 }
 
-/* --- 以下、既存のmain等のスタイル --- */
 main {
-  padding-top: 70px; /* ヘッダー分の余白 */
+  padding-top: 100px; /* ヘッダーおよび追加ボタン分の余白を確保 */
 }
 
 #roomList {
