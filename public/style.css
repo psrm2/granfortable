@@ -1,4 +1,5 @@
 /* style.css */
+/* --- 既存部分はそのまま --- */
 body, html {
   margin: 0;
   padding: 0;
@@ -10,30 +11,41 @@ header {
   top: 0;
   width: 100%;
   background-color: #fff;
-  padding: 5px 10px; /* paddingを軽くして全体をコンパクトに */
+  padding: 5px 10px;
   z-index: 100;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: nowrap; /* 要素が折り返さないように */
+  flex-wrap: nowrap;
 }
 
+/* ヘッダー内は入力ボックスのみ */
 header input[type="tel"] {
   flex: 1 1 auto;
-  min-width: 0; /* 自動で幅を縮める */
+  min-width: 0;
   padding: 6px;
   font-size: 14px;
 }
 
-header button {
-  flex: 0 0 auto;
-  padding: 6px 10px;
-  font-size: 14px;
-  margin-left: 5px;
-  margin-right: 15px;  /* 追加ボタンの右に15pxの空白を追加 */
+/* ヘッダー内のボタンは削除済み */
+
+/* --- 追加ボタンの固定配置設定 --- */
+#addButtonWrapper {
+  position: fixed;
+  top: 50px;             /* ヘッダーの下、必要に応じて調整 */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 101;
 }
 
+#addRoomBtn {
+  padding: 6px 10px;
+  font-size: 14px;
+  margin-right: 15px;      /* 右側に15pxの空白 */
+}
+
+/* --- 以下、既存のmain等のスタイル --- */
 main {
   padding-top: 70px; /* ヘッダー分の余白 */
 }
