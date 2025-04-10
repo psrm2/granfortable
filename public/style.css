@@ -10,33 +10,31 @@ header {
   top: 0;
   width: 100%;
   background-color: #fff;
-  padding: 10px;
+  padding: 5px 10px; /* paddingを軽くして全体をコンパクトに */
   z-index: 100;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  gap: 10px;
-  /* ヘッダー内の要素が１列に収まるようにする */
-  flex-wrap: nowrap;
+  justify-content: space-between;
+  flex-wrap: nowrap; /* 要素が折り返さないように */
 }
 
 header input[type="tel"] {
-  flex: 1;
-  min-width: 120px;
-  padding: 8px;
-  font-size: 16px;
+  flex: 1 1 auto;
+  min-width: 0; /* 自動で幅を縮める */
+  padding: 6px;
+  font-size: 14px;
 }
 
 header button {
-  padding: 8px 12px;
-  font-size: 16px;
-  white-space: nowrap;
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  font-size: 14px;
+  margin-left: 5px;
 }
 
 main {
   padding-top: 70px; /* ヘッダー分の余白 */
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 #roomList {
@@ -70,9 +68,9 @@ main {
   cursor: pointer;
 }
 
-/* ソート順チェックボックス用のコンテナ */
-.sortContainer {
-  margin: 10px auto;
+/* ソートオプション部分 */
+.sort-options {
   text-align: center;
+  margin-top: 10px;
   font-size: 14px;
 }
