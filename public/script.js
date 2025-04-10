@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ranges: [ 
         { from: 101, to: 107 }, 
         { from: 201, to: 207 },
-        { from: 301, to: 309 },  // 追加した301～309
+        { from: 301, to: 309 },
         { from: 401, to: 409 }, 
         { from: 501, to: 508 }, 
         { from: 601, to: 607 }, 
@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (Date.now() - parsed.timestamp < TWO_DAYS_MS) {
           registrations = parsed.data;
         } else {
-          // 2日以上経過している場合はキャッシュを破棄
           registrations = {};
         }
       } catch (e) {
@@ -72,17 +71,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     }
-    return null; // 定義範囲に存在しない場合
+    return null;
   }
 
   // 登録済みリストをソートしてDOMに反映する関数
   function updateList() {
-    // items: { room, elevator, count }
     const items = Object.keys(registrations).map(room => {
       return { room: parseInt(room, 10), elevator: registrations[room].elevator, count: registrations[room].count };
     });
 
-    // ソート順を決定：チェック状態でカスタム順（1,7,2,3,4,5,6）、そうでなければ1～7の昇順
     const sortOrder = elevator7SortCheckbox.checked ? [1, 7, 2, 3, 4, 5, 6] : [1, 2, 3, 4, 5, 6, 7];
 
     items.sort((a, b) => {
@@ -92,18 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
       return a.room - b.room;
     });
 
-    // DOMのリスト更新
     roomList.innerHTML = '';
     items.forEach(item => {
       const li = document.createElement('li');
 
-      const textSpan = document.createElement('span');
-      textSpan.textContent = `部屋番号: ${item.room} (号機: ${item.elevator})${item.count > 1 ? ' ×' + item.count : ''}`;
-
+      // ゴミ箱ボタンを左側に配置
       const delBtn = document.createElement('button');
       delBtn.className = 'deleteBtn';
       delBtn.textContent = '🗑️';
-      // ゴミ箱アイコンクリック時の削除／カウントダウン処理
       delBtn.addEventListener('click', () => {
         const key = item.room.toString();
         if (registrations[key].count > 1) {
@@ -113,21 +106,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         updateList();
       });
+      
+      const textSpan = document.createElement('span');
+      textSpan.textContent = `部屋番号: ${item.room} (号機: ${item.elevator})${item.count > 1 ? ' ×' + item.count : ''}`;
 
-      li.appendChild(textSpan);
+      // 順番：削除ボタンを先に、その右にテキスト
       li.appendChild(delBtn);
+      li.appendChild(textSpan);
+
       roomList.appendChild(li);
     });
 
-    // 更新後に localStorage へ保存
     saveRegistrations();
   }
 
-  // 部屋番号入力を登録する関数
   function addRoom() {
     const roomStr = roomInput.value.trim();
     if (roomStr === '') return;
-    // 入力が数字のみかチェック（数字以外が入力された場合はエラー表示）
     if (!/^\d+$/.test(roomStr)) {
       alert('部屋番号は数字のみで入力してください。');
       roomInput.value = '';
@@ -139,7 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
       roomInput.value = '';
       return;
     }
-    // 既に登録済みの場合はカウントを更新
     if (registrations[roomStr]) {
       registrations[roomStr].count += 1;
     } else {
@@ -149,7 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
     roomInput.value = '';
   }
 
-  // 全削除ボタンの処理
   clearListBtn.addEventListener('click', () => {
     if (confirm('登録されている全項目を削除しますか？')) {
       registrations = {};
@@ -163,9 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
       addRoom();
     }
   });
+  
   elevator7SortCheckbox.addEventListener('change', updateList);
 
-  // ページ読み込み時にキャッシュ済みデータを復元
   loadRegistrations();
   updateList();
 });
