@@ -31,6 +31,7 @@ header button {
   padding: 6px 10px;
   font-size: 14px;
   margin-left: 5px;
+  margin-right: 15px;  /* 追加ボタンの右に15pxの空白を追加 */
 }
 
 main {
