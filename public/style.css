@@ -16,7 +16,8 @@ header {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
+  /* ヘッダー内の要素が１列に収まるようにする */
+  flex-wrap: nowrap;
 }
 
 header input[type="tel"] {
@@ -24,11 +25,6 @@ header input[type="tel"] {
   min-width: 120px;
   padding: 8px;
   font-size: 16px;
-}
-
-header label {
-  white-space: nowrap;
-  font-size: 14px;
 }
 
 header button {
@@ -39,6 +35,8 @@ header button {
 
 main {
   padding-top: 70px; /* ヘッダー分の余白 */
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 #roomList {
@@ -70,4 +68,11 @@ main {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+}
+
+/* ソート順チェックボックス用のコンテナ */
+.sortContainer {
+  margin: 10px auto;
+  text-align: center;
+  font-size: 14px;
 }
