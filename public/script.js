@@ -10,30 +10,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // エレベーターごとの部屋番号範囲／個別番号の定義
   const elevatorMappings = [
-    { elevator: 1, ranges: [ { from:101, to:107 }, { from:201, to:207 }, { from:401, to:409 }, { from:501, to:508 }, { from:601, to:607 }, { from:701, to:706 }, { from:801, to:805 }, { from:901, to:904 }, { from:1001, to:1004 } ] },
-    { elevator: 2, ranges: [ { from:310, to:312 }, { from:410, to:413 }, { from:509, to:512 }, { from:608, to:611 }, { from:707, to:710 }, { from:806, to:809 }, { from:905, to:908 }, { from:1005, to:1008 }, { from:1101, to:1104 }, { from:1201, to:1203 }, { from:1301, to:1303 }, { from:1401, to:1401 } ] },
-    { elevator: 3, ranges: [ { from:313, to:314 }, { from:414, to:415 }, { from:513, to:514 }, { from:612, to:613 }, { from:711, to:712 }, { from:810, to:811 }, { from:909, to:910 }, { from:1009, to:1010 }, { from:1105, to:1106 }, { from:1204, to:1205 }, { from:1304, to:1305 }, { from:1402, to:1402 } ] },
-    { elevator: 4, ranges: [ { from:315, to:316 }, { from:416, to:417 }, { from:515, to:516 }, { from:614, to:615 }, { from:713, to:714 }, { from:812, to:813 }, { from:911, to:912 }, { from:1011, to:1012 }, { from:1107, to:1108 }, { from:1206, to:1207 }, { from:1306, to:1307 }, { from:1403, to:1404 } ] },
-    { elevator: 5, ranges: [ { from:317, to:320 }, { from:418, to:421 }, { from:517, to:520 }, { from:616, to:619 }, { from:715, to:718 }, { from:814, to:817 }, { from:913, to:916 }, { from:1013, to:1016 }, { from:1109, to:1112 }, { from:1208, to:1211 }, { from:1308, to:1310 }, { from:1405, to:1405 } ] },
-    { elevator: 6, ranges: [ { from:321, to:330 }, { from:422, to:431 }, { from:521, to:530 }, { from:620, to:628 }, { from:719, to:726 }, { from:818, to:824 }, { from:917, to:922 } ] },
-    { elevator: 7, ranges: [ { from:208, to:212 }, { from:331, to:335 }, { from:432, to:436 }, { from:531, to:534 }, { from:629, to:631 } ] }
+    { 
+      elevator: 1, 
+      ranges: [ 
+        { from: 101, to: 107 }, 
+        { from: 201, to: 207 },
+        { from: 301, to: 309 },  // 追加した301～309
+        { from: 401, to: 409 }, 
+        { from: 501, to: 508 }, 
+        { from: 601, to: 607 }, 
+        { from: 701, to: 706 }, 
+        { from: 801, to: 805 }, 
+        { from: 901, to: 904 }, 
+        { from: 1001, to: 1004 } 
+      ] 
+    },
+    { elevator: 2, ranges: [ { from: 310, to: 312 }, { from: 410, to: 413 }, { from: 509, to: 512 }, { from: 608, to: 611 }, { from: 707, to: 710 }, { from: 806, to: 809 }, { from: 905, to: 908 }, { from: 1005, to: 1008 }, { from: 1101, to: 1104 }, { from: 1201, to: 1203 }, { from: 1301, to: 1303 }, { from: 1401, to: 1401 } ] },
+    { elevator: 3, ranges: [ { from: 313, to: 314 }, { from: 414, to: 415 }, { from: 513, to: 514 }, { from: 612, to: 613 }, { from: 711, to: 712 }, { from: 810, to: 811 }, { from: 909, to: 910 }, { from: 1009, to: 1010 }, { from: 1105, to: 1106 }, { from: 1204, to: 1205 }, { from: 1304, to: 1305 }, { from: 1402, to: 1402 } ] },
+    { elevator: 4, ranges: [ { from: 315, to: 316 }, { from: 416, to: 417 }, { from: 515, to: 516 }, { from: 614, to: 615 }, { from: 713, to: 714 }, { from: 812, to: 813 }, { from: 911, to: 912 }, { from: 1011, to: 1012 }, { from: 1107, to: 1108 }, { from: 1206, to: 1207 }, { from: 1306, to: 1307 }, { from: 1403, to: 1404 } ] },
+    { elevator: 5, ranges: [ { from: 317, to: 320 }, { from: 418, to: 421 }, { from: 517, to: 520 }, { from: 616, to: 619 }, { from: 715, to: 718 }, { from: 814, to: 817 }, { from: 913, to: 916 }, { from: 1013, to: 1016 }, { from: 1109, to: 1112 }, { from: 1208, to: 1211 }, { from: 1308, to: 1310 }, { from: 1405, to: 1405 } ] },
+    { elevator: 6, ranges: [ { from: 321, to: 330 }, { from: 422, to: 431 }, { from: 521, to: 530 }, { from: 620, to: 628 }, { from: 719, to: 726 }, { from: 818, to: 824 }, { from: 917, to: 922 } ] },
+    { elevator: 7, ranges: [ { from: 208, to: 212 }, { from: 331, to: 335 }, { from: 432, to: 436 }, { from: 531, to: 534 }, { from: 629, to: 631 } ] }
   ];
 
-  // localStorage からデータを読み込む
+  // localStorageからデータを読み込む（保存したタイムスタンプが2日以内の場合のみ有効とする）
   function loadRegistrations() {
-    const data = localStorage.getItem('granfortableRegistrations');
-    if (data) {
+    const cached = localStorage.getItem('granfortableRegistrations');
+    if (cached) {
       try {
-        registrations = JSON.parse(data);
+        const parsed = JSON.parse(cached);
+        const TWO_DAYS_MS = 2 * 24 * 60 * 60 * 1000;
+        if (Date.now() - parsed.timestamp < TWO_DAYS_MS) {
+          registrations = parsed.data;
+        } else {
+          // 2日以上経過している場合はキャッシュを破棄
+          registrations = {};
+        }
       } catch (e) {
         console.error("登録データの読み込みエラー", e);
       }
     }
   }
 
-  // localStorage にデータを保存する
+  // localStorageにデータを保存する（現在の時刻をタイムスタンプとして保存）
   function saveRegistrations() {
-    localStorage.setItem('granfortableRegistrations', JSON.stringify(registrations));
+    const payload = {
+      timestamp: Date.now(),
+      data: registrations
+    };
+    localStorage.setItem('granfortableRegistrations', JSON.stringify(payload));
   }
 
   // 入力された部屋番号がどのエレベーターに属するか取得する関数
@@ -102,6 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function addRoom() {
     const roomStr = roomInput.value.trim();
     if (roomStr === '') return;
+    // 入力が数字のみかチェック（数字以外が入力された場合はエラー表示）
+    if (!/^\d+$/.test(roomStr)) {
+      alert('部屋番号は数字のみで入力してください。');
+      roomInput.value = '';
+      return;
+    }
     const elevator = getElevator(roomStr);
     if (elevator === null) {
       alert('入力された部屋番号は存在しません。');
