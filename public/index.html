@@ -11,12 +11,11 @@
     <input type="tel" id="roomInput" placeholder="部屋番号を入力">
   </header>
   
-  <!-- ヘッダー直下に追加ボタンを固定配置するコンテナ -->
-  <div id="addButtonWrapper">
-    <button id="addRoomBtn">追加</button>
-  </div>
-
   <main>
+    <!-- 追加ボタンをヘッダー直下に配置（stickyで固定） -->
+    <div id="addButtonWrapper">
+      <button id="addRoomBtn">追加</button>
+    </div>
     <ul id="roomList"></ul>
     <button id="clearListBtn">全削除</button>
     <div class="sort-options">
